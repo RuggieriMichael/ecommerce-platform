@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${product.name} + ' — ShopSphere'">Product</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container" style="display:flex; gap:40px; flex-wrap:wrap;">
+    <div style="flex:1; min-width:300px;">
+        <img th:src="${product.imageUrl}" alt="product image" style="width:100%; border-radius:10px;"/>
+    </div>
+    <div style="flex:1; min-width:300px;">
+        <div class="muted" th:text="${product.category.name}">Category</div>
+        <h1 th:text="${product.name}">Product Name</h1>
+        <p class="muted" th:text="${product.description}">Description</p>
+        <div class="price" style="font-size:26px; margin:16px 0;" th:text="'$' + ${product.price}">$0.00</div>
+
+        <div th:if="${product.stockQuantity} > 0">
+            <p class="muted" th:text="${product.stockQuantity} + ' in stock'">In stock</p>
+
+            <div sec:authorize="isAuthenticated()">
+                <form th:action="@{'/cart/add/' + ${product.id}}" method="post" style="display:flex; gap:10px; align-items:center;">
+                    <input type="number" name="quantity" value="1" min="1" th:max="${product.stockQuantity}" style="width:70px; padding:8px; border:1px solid #e5e7eb; border-radius:6px;"/>
+                    <button type="submit" class="btn">Add to Cart</button>
+                </form>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                <a href="/login" class="btn">Log in to purchase</a>
+            </div>
+        </div>
+        <div th:unless="${product.stockQuantity} > 0">
+            <button class="btn" disabled style="opacity:.5; cursor:not-allowed;">Out of Stock</button>
+        </div>
+    </div>
+</div>
+
+<footer>Built with Spring Boot &amp; Thymeleaf — portfolio demo, no real payments processed.</footer>
+</body>
+</html>

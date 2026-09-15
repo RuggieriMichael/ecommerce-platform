@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="'Order #' + ${order.id} + ' — ShopSphere'">Order</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+    <h2 class="section-title" th:text="'Order #' + ${order.id}">Order</h2>
+    <p>
+        <span class="badge" th:classappend="'badge-' + ${order.status}" th:text="${order.status}">Status</span>
+        <span class="muted" th:text="' — placed ' + ${#temporals.format(order.orderDate, 'MMM d, yyyy h:mm a')}">date</span>
+    </p>
+    <p class="muted"><strong>Shipping to:</strong> <span th:text="${order.shippingAddress}"></span></p>
+
+    <table>
+        <thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr></thead>
+        <tbody>
+        <tr th:each="item : ${order.items}">
+            <td th:text="${item.product.name}">Product</td>
+            <td th:text="${item.quantity}">1</td>
+            <td th:text="'$' + ${item.priceAtPurchase}">$0.00</td>
+            <td th:text="'$' + ${item.subtotal}">$0.00</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div style="text-align:right; margin-top:14px; font-size:18px; font-weight:700;" th:text="'Total: $' + ${order.totalAmount}">Total</div>
+</div>
+
+<footer>Built with Spring Boot &amp; Thymeleaf — portfolio demo, no real payments processed.</footer>
+</body>
+</html>

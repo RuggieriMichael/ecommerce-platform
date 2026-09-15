@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Order Confirmed — ShopSphere</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+    <div class="empty-state" style="background:#fff; border-radius:10px; border:1px solid #e5e7eb;">
+        <h2 style="color:#065f46;">Order Placed Successfully! 🎉</h2>
+        <p>Order <strong th:text="'#' + ${order.id}">#0</strong> has been confirmed.</p>
+        <p class="muted">A confirmation email would normally be sent here.</p>
+        <a th:href="@{'/orders/' + ${order.id}}" class="btn" style="margin-top:10px;">View Order Details</a>
+        <a href="/products" class="btn btn-outline" style="margin-top:10px; margin-left:10px;">Continue Shopping</a>
+    </div>
+</div>
+
+<footer>Built with Spring Boot &amp; Thymeleaf — portfolio demo, no real payments processed.</footer>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!-- This file is never rendered on its own. Other templates pull it in with:
+     <div th:replace="~{fragments/navbar :: navbar}"></div>
+     That keeps the nav bar written in exactly one place. -->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="navbar" class="navbar">
+    <div class="nav-container">
+        <a href="/" class="brand">ShopSphere</a>
+        <form action="/products" method="get" class="nav-search">
+            <input type="text" name="keyword" placeholder="Search products..." />
+            <button type="submit">Search</button>
+        </form>
+        <div class="nav-links">
+            <a href="/products">Shop</a>
+            <a href="/cart">Cart</a>
+            <span sec:authorize="isAuthenticated()">
+                <a href="/orders">My Orders</a>
+                <span sec:authorize="hasRole('ADMIN')">
+                    <a href="/admin/products">Admin</a>
+                </span>
+                <span class="nav-user" sec:authentication="name"></span>
+                <form th:action="@{/logout}" method="post" class="inline-form">
+                    <button type="submit" class="link-btn">Logout</button>
+                </form>
+            </span>
+            <span sec:authorize="!isAuthenticated()">
+                <a href="/login">Login</a>
+                <a href="/register">Sign Up</a>
+            </span>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Admin — Orders</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+    <h2 class="section-title">All Orders</h2>
+
+    <table>
+        <thead><tr><th>Order #</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="'#' + ${order.id}">#1</td>
+            <td th:text="${order.user.username}">user</td>
+            <td th:text="${#temporals.format(order.orderDate, 'MMM d, yyyy h:mm a')}">Date</td>
+            <td th:text="'$' + ${order.totalAmount}">$0.00</td>
+            <td><span class="badge" th:classappend="'badge-' + ${order.status}" th:text="${order.status}">Status</span></td>
+            <td>
+                <form th:action="@{'/admin/orders/' + ${order.id} + '/status'}" method="post" style="display:flex; gap:6px;">
+                    <select name="status">
+                        <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}" th:selected="${s == order.status}"></option>
+                    </select>
+                    <button type="submit" class="btn btn-outline btn-small">Update</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer>Built with Spring Boot &amp; Thymeleaf — portfolio demo, no real payments processed.</footer>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Checkout — ShopSphere</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container" style="display:flex; gap:30px; flex-wrap:wrap;">
+    <div style="flex:2; min-width:320px;">
+        <h2 class="section-title">Checkout</h2>
+
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+        <form th:action="@{/checkout/place}" method="post">
+            <div class="form-box" style="margin:0 0 20px;">
+                <h3 style="margin-top:0;">Shipping Address</h3>
+                <div class="form-group">
+                    <label>Full shipping address</label>
+                    <textarea name="shippingAddress" rows="3" required placeholder="123 Main St, City, Province, Postal Code"></textarea>
+                </div>
+            </div>
+
+            <div class="form-box" style="margin:0 0 20px;">
+                <h3 style="margin-top:0;">Payment</h3>
+                <p class="muted">This is a portfolio demo — no real payment is processed. Clicking "Place Order" simulates a successful charge.</p>
+                <div class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" placeholder="4242 4242 4242 4242" disabled/>
+                </div>
+            </div>
+
+            <button type="submit" class="btn" style="width:100%; padding:14px;">Place Order</button>
+        </form>
+    </div>
+
+    <div style="flex:1; min-width:260px;">
+        <div class="summary-box">
+            <h3 style="margin-top:0;">Order Summary</h3>
+            <div class="summary-row" th:each="item : ${cartItems}">
+                <span th:text="${item.product.name} + ' × ' + ${item.quantity}">Item</span>
+                <span th:text="'$' + ${item.subtotal}">$0.00</span>
+            </div>
+            <div class="summary-row summary-total">
+                <span>Total</span>
+                <span th:text="'$' + ${total}">$0.00</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>Built with Spring Boot &amp; Thymeleaf — portfolio demo, no real payments processed.</footer>
+</body>
+</html>

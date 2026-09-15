@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Admin — Products</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2 class="section-title">Manage Products</h2>
+        <a href="/admin/products/new" class="btn">+ New Product</a>
+    </div>
+
+    <div style="margin-bottom:16px;">
+        <a href="/admin/orders" class="btn btn-outline btn-small">View Orders →</a>
+    </div>
+
+    <table>
+        <thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.name}">Name</td>
+            <td th:text="${product.category.name}">Category</td>
+            <td th:text="'$' + ${product.price}">$0.00</td>
+            <td th:text="${product.stockQuantity}">0</td>
+            <td>
+                <a th:href="@{'/admin/products/' + ${product.id} + '/edit'}" class="btn btn-outline btn-small">Edit</a>
+                <form th:action="@{'/admin/products/' + ${product.id} + '/delete'}" method="post" class="inline-form"
+                      onsubmit="return confirm('Delete this product?');">
+                    <button type="submit" class="btn btn-danger btn-small">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer>Built with Spring Boot &amp; Thymeleaf — portfolio demo, no real payments processed.</footer>
+</body>
+</html>

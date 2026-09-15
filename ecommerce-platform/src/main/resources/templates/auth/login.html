@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Login — ShopSphere</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="form-box">
+    <h2>Log In</h2>
+
+    <div th:if="${param.error}" class="alert alert-error">Invalid username or password.</div>
+    <div th:if="${param.registered}" class="alert alert-success">Account created! You can log in now.</div>
+    <div th:if="${param.logout}" class="alert alert-success">You've been logged out.</div>
+
+    <form th:action="@{/login}" method="post">
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username" required autofocus/>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" required/>
+        </div>
+        <button type="submit" class="btn" style="width:100%;">Log In</button>
+    </form>
+
+    <p class="muted" style="margin-top:16px;">
+        Demo accounts — admin: <code>admin / admin123</code> &nbsp;|&nbsp; user: <code>demo / demo123</code>
+    </p>
+    <p style="margin-top:10px;">No account? <a href="/register">Sign up</a></p>
+</div>
+
+<footer>Built with Spring Boot &amp; Thymeleaf — portfolio demo, no real payments processed.</footer>
+</body>
+</html>
